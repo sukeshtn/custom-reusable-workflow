@@ -1,18 +1,16 @@
-# variables.tf: Declaring input variables
+# variables.tf: Declaring input  for s3
+variable "s3_bucket_name" {
+  description = "The name of the S3 bucket"
+  type        = string
+}
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+}
 
 variable "aws_region" {
-  description = "AWS region to deploy resources in"
+  description = "The AWS region to deploy resources"
   type        = string
-  default     = "us-east-1"
+  
 }
 
-variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
-  type        = string
-}
-
-variable "instance_type" {
-  description = "Instance type"
-  type        = string
-  default     = "t2.micro"
-}
