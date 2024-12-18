@@ -12,4 +12,7 @@ jobs:
       terraform_version: '1.5.0'
       tf_backend_config: './config/backend.tf'
       tf_vars: './config/terraform.tfvars'
-    secrets: inherit
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
