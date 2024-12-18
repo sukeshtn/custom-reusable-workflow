@@ -1,0 +1,52 @@
+# .github/workflows/terraform-deploy.yml
+name: Terraform Deployment
+
+on:
+  workflow_call:
+    inputs:
+      terraform_version:
+        description: 'Terraform version'
+        required: true
+        default: '1.5.0'
+      tf_backend_config:
+        description: 'backend config file'
+        required: false
+        default: './backend.tf'
+      tf_vars:
+        description: 'variables file'
+        required: false
+        default: './terraform.tfvars'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+        
+      - name: Configure AWS credentials (if using AWS)
+        if: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: 'us-east-1'
+
+      - name: Terraform Init
+        run: |
+          terraform init -backend-config="${{ inputs.tf_backend_config }}"
+
+      - name: Terraform Plan
+        run: |
+          terraform plan -var-file="${{ inputs.tf_vars }}"
+
+      - name: Terraform Apply
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          terraform apply -auto-approve -var-file="${{ inputs.tf_vars }}"

@@ -1,0 +1,15 @@
+name: Main Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  terraform-deployment:
+    uses: ./.github/workflows/terraform-deploy.yml
+    with:
+      terraform_version: '1.5.0'
+      tf_backend_config: './config/backend.tf'
+      tf_vars: './config/terraform.tfvars'
+    secrets: inherit
