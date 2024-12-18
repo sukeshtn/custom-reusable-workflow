@@ -7,12 +7,15 @@ on:
       terraform_version:
         required: true
         default: '1.5.0'
+        type: string
       tf_backend_config:
         required: false
         default: './backend.tf'
+        type: string
       tf_vars:
         required: false
         default: './terraform.tfvars'
+        type: string
 
 jobs:
   terraform:
