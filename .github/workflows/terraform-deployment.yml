@@ -5,15 +5,12 @@ on:
   workflow_call:
     inputs:
       terraform_version:
-        description: 'Terraform version'
         required: true
         default: '1.5.0'
       tf_backend_config:
-        description: 'backend config file'
         required: false
         default: './backend.tf'
       tf_vars:
-        description: 'variables file'
         required: false
         default: './terraform.tfvars'
 
